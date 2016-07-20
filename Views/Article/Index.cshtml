@@ -1,0 +1,111 @@
+﻿@model List<DanaZhangCms.Domain.DbModels.Article> 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="toppic">
+    <div class="am-container-1">
+        <div class="toppic-title left">
+            <i class="am-icon-newspaper-o toppic-title-i"></i>
+            <span class="toppic-title-span">@ViewBag.Cates.Title</span>
+            <p>@ViewBag.Cates.Name</p>
+        </div>
+        <div class="right toppic-progress">
+            <span><a href="/" class="w-white">首页</a></span>
+            <i class=" am-icon-arrow-circle-right w-white"></i>
+            <span><a href="@ViewBag.Url" class="w-white">@ViewBag.Cates.Title</a></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="am-container-1 news-content-all">
+    <div class="left am-u-sm-12 am-u-md-8 am-u-lg-9 ">
+        <ul class="news-ul">
+            @foreach (var item in Model)
+            {
+            <li class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                <a href="@Url.Action("Content","Article",new { id=item.Id})">
+                    <div class="news-ul-liall">
+                        <img class="news-ul-liimg" src="@item.ImgUrl" />
+                        <div class="inform-list">
+                            <div class="inform-list-date"><i class="am-icon-arrow-circle-right"></i>@item.AddTime.ToString("yyyy-MM-dd")</div>
+                            <div class="inform-list-numb"><i class="am-icon-arrow-circle-right"></i>点击次数：@item.Click</div>
+                        </div>
+                        <span>@item.Title</span>
+                        <p>@(item.ZhaiYao.Length > 20 ? item.ZhaiYao.Substring(0, 20) + "..." : item.ZhaiYao)</p>
+                        <span class="see-more3">查看更多<i class="am-icon-angle-double-right"></i></span>
+                    </div>
+                </a>
+            </li>
+            }
+            <div class="clear"></div>
+        </ul>
+        
+        @Html.Partial("_PagerPartial", ViewData)
+    </div>
+    <div class="left am-u-sm-12 am-u-md-4 am-u-lg-3">
+
+        <section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{  }'>
+            <div class="hot-title"><i class="am-icon-thumbs-o-up"></i>热门新闻 / Hot 	News</div>
+            <dl class="am-accordion-item am-active">
+                <dt class="am-accordion-title">
+                    用户体验制作当中的一些可视化信息
+                </dt>
+                <dd class="am-accordion-bd am-collapse am-in">
+                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                    <div class="am-accordion-content">
+                        英特网，是网络与网络之间所串连成的庞大网络网又称网际网路或音译因特网、英特网，是网络与网络之间所串连成的庞大网络网络与网络之
+                    </div>
+                </dd>
+            </dl>
+            <dl class="am-accordion-item">
+                <dt class="am-accordion-title">
+                    可视化信息
+                </dt>
+                <dd class="am-accordion-bd am-collapse ">
+                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                    <div class="am-accordion-content">
+                        英特网，是网络与网络之间所串连成的庞大网络网所串连成的庞大网络网
+                    </div>
+                </dd>
+            </dl>
+            <dl class="am-accordion-item">
+                <dt class="am-accordion-title">
+                    响应式购物商城
+                </dt>
+                <dd class="am-accordion-bd am-collapse ">
+                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                    <div class="am-accordion-content">
+                        英特网，是网络与网络之间所串连成的庞大网络网所串连成的庞大网络网
+                    </div>
+                </dd>
+            </dl>
+            <dl class="am-accordion-item">
+                <dt class="am-accordion-title">
+                    可视化信息
+                </dt>
+                <dd class="am-accordion-bd am-collapse ">
+                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                    <div class="am-accordion-content">
+                        英特网，是网络与网络之间所串连成的庞大网络网所串连成的庞大网络网
+                    </div>
+                </dd>
+            </dl>
+            <dl class="am-accordion-item">
+                <dt class="am-accordion-title">
+                    响应式购物商城
+                </dt>
+                <dd class="am-accordion-bd am-collapse ">
+                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                    <div class="am-accordion-content">
+                        英特网，是网络与网络之间所串连成的庞大网络网所串连成的庞大网络网
+                    </div>
+                </dd>
+            </dl>
+
+        </section>
+
+    </div>
+    <div class="clear"></div>
+</div>
+

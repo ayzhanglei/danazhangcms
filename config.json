@@ -1,0 +1,21 @@
+﻿{
+  "AppSettings": {
+    "SiteTitle": "DanaZhangCms"
+  },
+  "DefaultAdminUsername": "admin",
+  "DefaultAdminPassword": "admin123",
+  "Data": {
+    "DefaultConnection": {
+      // Use a shared (and running) LocalDB database when executing in IIS e.g.
+      //"ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+      "ConnectionString": "Filename=danazhangcms.db"
+    }
+  },
+  "Storage": {
+    "StorageType": "LocalStorage", //Set "AzureStorage" or "LocalStorage"
+    "AzureStorage": {
+      "StoragePath": "http://127.0.0.1:10000/devstoreaccount1/images/",
+      "StorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=account-name;AccountKey=account-key"
+    }
+  }
+}

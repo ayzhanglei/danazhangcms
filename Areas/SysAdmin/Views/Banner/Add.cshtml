@@ -1,0 +1,115 @@
+﻿@model DanaZhangCms.Domain.DbModels.Banner
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="/css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/plugins/webuploader/webuploader.css">
+    <link href="/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="/plugins/editormd/css/editormd.min.css" rel="stylesheet" />
+    <style>
+        .lightBoxGallery img {
+            margin: 5px;
+            width: 160px;
+        }
+    </style>
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加Banner信息</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <form method="post" class="form-horizontal">
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Url</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="LinkUrl" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="SortId" value="@Model.SortId" class="form-control">
+                            </div>
+                        </div>
+
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片</label>
+                            <div class="col-sm-10">
+                                <div class="lightBoxGallery" id="lightBoxGallery">
+                                    <img id="imgholder" src="/img/nopic.gif">
+                                </div>
+                                <div class="uploadbox">
+                                    <h3>上传图片</h3>
+                                </div>
+                                <input type="hidden" name="ImgUrl" id="ImgUrl" value="@Model.ImgUrl" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit">保存内容</button>
+                                <button class="btn btn-white" type="submit">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script>
+        var testEditor;
+        $(function () {
+
+          
+
+            var BASE_URL = "/js/plugins/webuploader/";
+            var uploader = WebUploader.create({
+                auto: true,
+                swf: BASE_URL + '/Uploader.swf',
+                server: '/sysadmin/tools/upload?sf=true',
+                pick: '.uploadbox',
+                fileVal: "imgFile",
+                extensions: "jpg,jpeg,bmp,png",
+                resize: false
+            });
+            uploader.on('uploadSuccess', function (file, response) {
+                if (response.success) {
+                    $("#imgholder").attr("src", response.url);
+                    $("#ImgUrl").val(response.url);
+                    layer.alert('上传成功！')
+                } else {
+                    layer.alert(response.message);
+                }
+            });
+            uploader.on('uploadError', function (file) {
+                layer.alert('上传出错，请刷新页面后重试！')
+            });
+
+            //$("form").submit(function (e) {
+
+            //    $("#Content").val(testEditor.getHTML());
+            //});
+
+        });
+    </script>
+}

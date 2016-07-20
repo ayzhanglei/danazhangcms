@@ -1,0 +1,71 @@
+﻿@model DanaZhangCms.Domain.DbModels.Channel
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加频道信息</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <form method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">名字</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="SortId" value="@Model.SortId" class="form-control">
+                            </div>
+                        </div>
+
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                是否为图文
+
+                            </label>
+                            <div class="col-sm-10">
+
+                                <div class="radio i-checks">
+                                    <label>
+                                        <input type="radio" value="1" checked="" name="IsAlbums"> <i></i> 是
+                                    </label>
+                                </div>
+                                <div class="radio i-checks">
+                                    <label>
+                                        <input type="radio" value="0" name="IsAlbums"> <i></i> 否
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit">保存内容</button>
+                                <button class="btn btn-white" type="submit">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

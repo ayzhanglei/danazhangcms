@@ -1,0 +1,179 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="/css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <style>
+        /* Additional style to fix warning dialog position */
+
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>频道列表</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <h4 class="m-t"><a href="/sysadmin/Channel/Add">添加频道</a></h4>
+
+                    <div class="jqGrid_wrapper">
+                        <table id="jqGrid"></table>
+                        <div id="pagerlist"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="/js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+    <script src="/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+    <script src="/js/content.min.js?v=1.0.0"></script>
+    @*<script>
+            $(document).ready(function () {
+                $.jgrid.defaults.styleUI = "Bootstrap";
+
+                $("#jqGrid").jqGrid(
+                    {
+                        url: '/sysadmin/Channel/indexdata',
+                        mtype: "GET",
+                        datatype: "json",
+                        height: 450, autowidth: true, shrinkToFit: true, rowNum: 20,
+                        colNames: ["序号", "名字", "标题", "是否为图文", "添加时间", "操作",],
+                        colModel: [
+                            { name: "id", index: "id", editable: true, width: 60, sorttype: "int", search: true },
+                            { name: "name", index: "name", editable: true, width: 90 },
+                            { name: "title", index: "title", editable: true, width: 100 },
+                            { name: "isAlbums", index: "isAlbums", editable: true, width: 80, align: "right", sorttype: "float", formatter: "number" },
+                            { name: "addTime", index: "addTime", editable: true, width: 80, align: "right", sorttype: "date", formatter: "date" },
+                            { name: "id", index: "id", editable: true, width: 80, align: "right", sorttype: "float" }]
+                        ,
+                        pager: "#pagerlist", viewrecords: true, caption: "jqGrid 示例2", add: true, edit: true, addtext: "Add", edittext: "Edit", hidegrid: false
+                    });
+                //$("#table_list_2").setSelection(4, true);
+                //$("#table_list_2").jqGrid("navGrid", "#pager_list_2", { edit: true, add: true, del: true, search: true }, { height: 200, reloadAfterSubmit: true });
+                //$(window).bind("resize", function () { var width = $(".jqGrid_wrapper").width(); $("#table_list_1").setGridWidth(width); $("#table_list_2").setGridWidth(width) })
+            });
+        </script>*@
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $.jgrid.defaults.styleUI = "Bootstrap";
+            $("#jqGrid").jqGrid({
+                colNames: ["序号", "名字", "标题", "是否为图文", "添加时间", "操作", ],
+                colModel: [
+                    { name: "id", index: "id", editable: true, width: 60, sorttype: "int", search: true },
+                    { name: "name", index: "name", editable: true, width: 90 },
+                    { name: "title", index: "title", editable: true, width: 100 },
+                    { name: "isAlbums", index: "isAlbums", editable: true, width: 80, align: "right", formatter: formatisAlbums },
+                    { name: "addTime", index: "addTime", editable: true, width: 80, align: "right", sorttype: "date", formatter: "date" },
+                    { name: "id", index: "id", editable: true, width: 80, align: "right", formatter: formatOperation }],
+                viewrecords: true, // show the current page, data rang and total records on the toolbar
+                width: 780,
+                height: 200,
+                rowNum: 15,
+                datatype: 'local',
+                pager: "#pagerlist"
+                //,
+                //onSelectRow: function (id) {
+                //    jQuery("#jqGrid").jqGrid('delGridRow', id, { msg: "zzz" });
+                //}
+
+            });
+
+            fetchGridData();
+
+            function fetchGridData() {
+
+                var gridArrayData = [];
+                // show loading message
+                $("#jqGrid")[0].grid.beginReq();
+                $.ajax({
+                    url: "/sysadmin/Channel/indexdata",
+                    success: function (result) {
+                        for (var i = 0; i < result.row.length; i++) {
+                            var item = result.row[i];
+                            gridArrayData.push({
+                                title: item.title,
+                                name: item.name,
+                                isAlbums: item.isAlbums,
+                                addTime: item.addTime,
+                                id: item.id
+                            });
+                        }
+                        // set the new data
+                        $("#jqGrid").jqGrid('setGridParam', { data: gridArrayData });
+                        // hide the show message
+                        $("#jqGrid")[0].grid.endReq();
+                        // refresh the grid
+                        $("#jqGrid").trigger('reloadGrid');
+                    }
+                });
+            }
+
+            function formatisAlbums(cellValue, options, rowObject) {
+                if (cellValue)
+                    return "是";
+                else
+                    return "否";
+            };
+
+            function formatOperation(cellValue, options, rowObject) {
+                return "<a href='/sysadmin/Channel/edit/" + cellValue + "'>编辑</a>";
+            };
+
+            function formatTitle(cellValue, options, rowObject) {
+                return cellValue.substring(0, 50) + "...";
+            };
+
+            function formatLink(cellValue, options, rowObject) {
+                return "<a href='" + cellValue + "'>" + cellValue.substring(0, 25) + "..." + "</a>";
+            };
+
+            $("#jqGrid").setSelection(4, true);
+            $('#jqGrid').navGrid('#pagerlist',
+                   // the buttons to appear on the toolbar of the grid
+                   { edit: false, add: false, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+                   // options for the Edit Dialog
+                   {
+
+                       errorTextFormat: function (data) {
+                           return 'Error: ' + data.responseText
+                       }
+                   },
+                   // options for the Add Dialog
+                   {
+
+                       errorTextFormat: function (data) {
+                           return 'Error: ' + data.responseText
+                       }
+                   },
+                   // options for the Delete Dailog
+                   {
+                       url: "/sysadmin/Channel/del",
+                       errorTextFormat: function (data) {
+                           return 'Error: ' + data.responseText
+                       }
+                   });
+
+            $(window).bind("resize", function () { var width = $(".jqGrid_wrapper").width(); $("#jqGrid").setGridWidth(width) })
+
+        });
+
+    </script>
+
+
+}

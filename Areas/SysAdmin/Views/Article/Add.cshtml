@@ -1,0 +1,230 @@
+﻿@model DanaZhangCms.Domain.ViewModel.ArticleViewModel
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="/css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/plugins/webuploader/webuploader.css">
+    <link href="/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="/plugins/editormd/css/editormd.min.css" rel="stylesheet" />
+    <style>
+        .lightBoxGallery img {
+            margin: 5px;
+            width: 160px;
+        }
+    </style>
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加文章信息</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <form method="post" class="form-horizontal">
+
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab-1" aria-expanded="true"> 基本信息</a>
+                                </li>
+                                <li class="">
+                                    <a data-toggle="tab" href="#tab-2" aria-expanded="false">拓展信息</a>
+                                </li>
+                                <li class="">
+                                    <a data-toggle="tab" href="#tab-3" aria-expanded="false">SEO信息</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">标题</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="Title" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">分类</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control m-b" name="CategoryId">
+                                                @foreach (var item in ViewBag.Category)
+                                                {
+                                                    <option value="@item.Id">@item.Title</option>
+                                                }
+
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">图片</label>
+                                        <div class="col-sm-10">
+                                            <div class="lightBoxGallery" id="lightBoxGallery">
+                                                <img id="imgholder" src="/img/nopic.gif">
+                                            </div>
+                                            <div class="uploadbox">
+                                                <h3>上传图片</h3>
+                                            </div>
+                                            <input type="hidden" name="ImgUrl" id="ImgUrl" value="@Model.ImgUrl" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">摘要</label>
+                                        <div class="col-sm-10">
+                                            <textarea name="ZhaiYao" id="Contents" value="@Model.ZhaiYao"></textarea>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">描述</label>
+                                        <div class="col-sm-10" id="test-editormd">
+
+                                            <textarea style="display:none;" name="Contents" id="Contents" value="@Model.Content"></textarea>
+                                        </div>
+                                        @Html.HiddenFor(o => o.Content, new { id = "Content" })
+                                    </div>
+
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">排序</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="SortId" value="@Model.SortId" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="tab-3" class="tab-pane">
+                                    <div class="panel-body">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">SeoTitle</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="SeoTitle" value="@Model.SeoTitle" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">SeoKeywords</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="SeoKeywords" value="@Model.SeoKeywords" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">SeoDescription</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="SeoDescription" value="@Model.SeoDescription" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit">保存内容</button>
+                                <button class="btn btn-white" type="submit">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <script src="/plugins/editormd/editormd.min.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script>
+        var testEditor;
+        $(function () {
+
+            var BASE_URL = "/js/plugins/webuploader/";
+            var uploader = WebUploader.create({
+                auto: true,
+                swf: BASE_URL + '/Uploader.swf',
+                server: '/sysadmin/tools/upload?sf=true',
+                pick: '.uploadbox',
+                fileVal: "imgFile",
+                extensions: "jpg,jpeg,bmp,png",
+                resize: false
+            });
+            uploader.on('uploadSuccess', function (file, response) {
+                if (response.success) {
+                    $("#imgholder").attr("src", response.url);
+                    $("#ImgUrl").val(response.url);
+                    layer.alert('上传成功！')
+                } else {
+                    layer.alert(response.message);
+                }
+            });
+            uploader.on('uploadError', function (file) {
+                layer.alert('上传出错，请刷新页面后重试！')
+            });
+
+
+            testEditor = editormd("test-editormd", {
+                width: "90%",
+                height: 640,
+                syncScrolling: "single",
+                saveHTMLToTextarea: true,
+                path: "/plugins/editormd/lib/",
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "/sysadmin/tools/upload",
+                /*
+                     上传的后台只需要返回一个 JSON 数据，结构如下：
+                     {
+                        success : 0 | 1,           // 0 表示上传失败，1 表示上传成功
+                        message : "提示的信息，上传成功或上传失败及错误信息等。",
+                        url     : "图片地址"        // 上传成功时才返回
+                     }
+                     */
+
+
+            });
+
+
+
+            $("form").submit(function (e) {
+
+                $("#Content").val(testEditor.getHTML());
+            });
+
+        });
+    </script>
+}
