@@ -6,3 +6,7 @@ SQLite v3
 ASP.Net MVC Core 1.0.0
 
 .NET Core 跨平台CMS
+
+
+最新代码
+http://git.oschina.net/ayzhanglei/DanaZhangCms
