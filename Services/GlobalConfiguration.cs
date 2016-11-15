@@ -11,6 +11,8 @@ namespace DanaZhangCms.Services
 
         public static string ConnectionString { get; set; }
 
+        public static string ContentPath { get; set; }
+
         public static string ApplicationPath { get; set; }
 
 

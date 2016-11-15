@@ -5,11 +5,11 @@ namespace DanaZhangCms.Domain.ViewModel
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required( ErrorMessage = "用户名不能为空")]
         [Display(Name = "用户名")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required( ErrorMessage = "密码不能为空")]
         [DataType(DataType.Password)]
         [Display(Name = "密码")]
         public string Password { get; set; }
@@ -40,4 +40,24 @@ namespace DanaZhangCms.Domain.ViewModel
         [Compare("Password", ErrorMessage = "两次密码不一致")]
         public string ConfirmPassword { get; set; }
     }
+
+
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        public string Code { get; set; }
+    }
+
 }

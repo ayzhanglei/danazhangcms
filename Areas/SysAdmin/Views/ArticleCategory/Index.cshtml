@@ -40,11 +40,11 @@
     <script src="/js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
     <script src="/js/content.min.js?v=1.0.0"></script>
     <script type="text/javascript">
-
-
         $(document).ready(function () {
             $.jgrid.defaults.styleUI = "Bootstrap";
             $("#jqGrid").jqGrid({
+                 url : '/sysadmin/articlecategory/indexdata',
+                 datatype : "json",
                 colNames: ["序号", "名字", "标题", "是否为图文", "添加时间", "操作", ],
                 colModel: [
                     { name: "id", index: "id", editable: true, width: 60, sorttype: "int", search: true },
@@ -55,46 +55,20 @@
                     { name: "id", index: "id", editable: true, width: 80, align: "right", formatter: formatOperation }],
                 viewrecords: true, // show the current page, data rang and total records on the toolbar
                 width: 780,
-                height: 200,
-                rowNum: 15,
-                datatype: 'local',
-                pager: "#pagerlist"
-                //,
-                //onSelectRow: function (id) {
-                //    jQuery("#jqGrid").jqGrid('delGridRow', id, { msg: "zzz" });
-                //}
+                height: 600,
+                 rowNum : 15,
+        rowList : [ 10, 15, 20 ],
+        pager : '#pagerlist',
+          width: 780,
+          height: 600,
+      //  sortname : 'id',
+        viewrecords : true,
+     //   sortorder : "desc",
 
-            });
+      }).navGrid("#pagerlist", {edit : false,add : false,del : false});
+var width = $(".jqGrid_wrapper").width(); $("#jqGrid").setGridWidth(width) 
 
-            fetchGridData();
 
-            function fetchGridData() {
-
-                var gridArrayData = [];
-                // show loading message
-                $("#jqGrid")[0].grid.beginReq();
-                $.ajax({
-                    url: "/sysadmin/articlecategory/indexdata",
-                    success: function (result) {
-                        for (var i = 0; i < result.row.length; i++) {
-                            var item = result.row[i];
-                            gridArrayData.push({
-                                title: item.title,
-                                name: item.name,
-                                isAlbums: item.isAlbums,
-                                addTime: item.addTime,
-                                id: item.id
-                            });
-                        }
-                        // set the new data
-                        $("#jqGrid").jqGrid('setGridParam', { data: gridArrayData });
-                        // hide the show message
-                        $("#jqGrid")[0].grid.endReq();
-                        // refresh the grid
-                        $("#jqGrid").trigger('reloadGrid');
-                    }
-                });
-            }
 
 
             function formatOperation(cellValue, options, rowObject) {

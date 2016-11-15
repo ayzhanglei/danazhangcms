@@ -51,16 +51,9 @@ namespace DanaZhangCms.Controllers
                 return View(model);
             }
             //admin123
-            //var user = new User { UserName = model.UserName, Email = "ayzhanglei@gmail.com", CreateOn = DateTime.Now, LastTime = DateTime.Now.AddYears(10) };
-            //var addresult = await UserManager.CreateAsync(user, model.Password);
-            //if (addresult.Succeeded)
-            //    await UserManager.AddToRoleAsync(user, "admin");
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-
-
-
                 _logger.LogInformation("Logged in {userName}.", model.UserName);
                 if (string.IsNullOrWhiteSpace(returnUrl))
                     return RedirectToAction("Index", "Home", new { area = "sysadmin" });
@@ -70,7 +63,7 @@ namespace DanaZhangCms.Controllers
             {
                 _logger.LogWarning("Failed to log in {userName}.", model.UserName);
                 ModelState.AddModelError("", "用户名或密码错误");
-                return View(model);
+                return View();
             }
         }
 

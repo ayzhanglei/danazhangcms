@@ -50,6 +50,13 @@ namespace DanaZhangCms.Domain.DbModels
             get;
         }
 
+        [NotMapped]
+        public string CategoryTitle
+        {
+            set;
+            get;
+        }
+
         public ArticleCategory Category
         {
             get;

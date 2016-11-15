@@ -79,7 +79,7 @@ namespace DanaZhangCms.Domain.ViewModel
         /// <summary>
         /// 内容摘要
         /// </summary>
-        [Required]
+        //[Required]
         public string ZhaiYao
         {
             set;

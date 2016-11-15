@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DanaZhangCms.Areas.SysAdmin.Controllers
 {
-    [Area("sysadmin")]
+    [Area("SysAdmin")]
     [Authorize(Roles = "admin")]
     public class ArticleCategoryController : Controller
     {
@@ -27,16 +27,16 @@ namespace DanaZhangCms.Areas.SysAdmin.Controllers
         {
             return View();
         }
-        public async Task<JsonResult> IndexData(int page = 1, string key = "", int pageSize = 10)
+        public async Task<JsonResult> IndexData(int page = 1, string key = "", int rows = 10)
         {
             Expression<Func<ArticleCategory, bool>> predicate = o => !o.IsDel;
             if (!string.IsNullOrWhiteSpace(key))
                 predicate = predicate.And(s => s.Title.Contains(key));
             var query = dbContext.ArticleCategorys.Where(predicate);
             var count = query.Count();
-            var data = query.OrderByDescending(o => o.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            var pages = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
-            return Json(new { records = count, page = page, total = pages, row = data });
+            var data = query.OrderByDescending(o => o.Id).Skip((page - 1) * rows).Take(rows).ToList();
+            var pages = count % rows == 0 ? count / rows : count / rows + 1;
+            return Json(new { records = count, page = page, total = pages, rows = data });
         }
 
         public async Task<IActionResult> Add()

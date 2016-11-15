@@ -1,5 +1,8 @@
-﻿@{ 
+﻿@{
     Layout = null;
+
+    var WorkContext = ViewBag.WorkContext as DanaZhangCms.Domain.ViewModel.WebWorkContext;
+
 }
 <footer class="footer ">
 
@@ -8,11 +11,11 @@
         <li class="am-u-lg-4 am-u-md-4 am-u-sm-12 part-5-li2">
             <div class="part-5-title">联系我们</div>
             <div class="part-5-words2">
-                <span>地址:河南省郑州市</span>
-                <span>电话:177....</span>
-                <span>传真:(123) 456-7890</span>
-                <span>邮箱:ayzhanglei@gmail.com</span>
-                <span><i class="am-icon-phone"></i><em>027-82671661</em></span>
+                <span>地址:@WorkContext.Sites.webaddress</span>
+                <span>电话:@WorkContext.Sites.webtel</span>
+                <span>传真:@WorkContext.Sites.webfax</span>
+                <span>邮箱:@WorkContext.Sites.webmail</span>
+                <span><i class="am-icon-phone"></i><em>@WorkContext.Sites.webtel</em></span>
             </div>
         </li>
         <li class="am-u-lg-4 am-u-md-4 am-u-sm-12 ">

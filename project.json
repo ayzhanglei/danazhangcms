@@ -10,7 +10,13 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "Views"
+      "Views",
+      "Areas",
+      "XmlConfig",
+      "appsettings.json",
+      "web.config",
+      "nlog.config",
+      "config.json"
     ]
   },
   "dependencies": {
@@ -22,7 +28,7 @@
     "Microsoft.Extensions.Logging": "1.0.0-*",
     "Microsoft.Extensions.Logging.Console": "1.0.0-*",
     "NLog.Extensions.Logging": "1.0.0-rtm-alpha2",
-    "Microsoft.EntityFrameworkCore":"1.0.0-*",
+    "Microsoft.EntityFrameworkCore": "1.0.0-*",
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-*",
     "Microsoft.AspNetCore.Session": "1.0.0-*",
     "Microsoft.Extensions.Caching.Memory": "1.0.0-*",
@@ -39,26 +45,29 @@
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.0-rc2-*"
-    }
-
+    },
+    "System.Xml.XmlSerializer": "4.0.11"
   },
   "frameworks": {
     "netcoreapp1.0": {
-        "imports": [
-            "portable-net45+wp80+win8+wpa81+dnxcore50",
-            "portable-net45+win8+wp8+wpa81",
-            "portable-net45+win8+wp8"
-        ]
+      "imports": [
+        "portable-net45+wp80+win8+wpa81+dnxcore50",
+        "portable-net45+win8+wp8+wpa81",
+        "portable-net45+win8+wp8"
+      ]
     }
-},
+  },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
       "version": "1.0.0-preview1-final",
       "imports": "portable-net45+wp80+win8+wpa81+dnxcore50"
     }
-    
+
   },
   "scripts": {
-    "postpublish": "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  },
+  "runtimes": {
+    "ubuntu.14.04-x64": ""
   }
 }

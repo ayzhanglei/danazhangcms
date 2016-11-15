@@ -10,7 +10,7 @@ namespace DanaZhangCms
         {
             var host = new WebHostBuilder()
                         .UseKestrel()
-                        .UseUrls("http://*:8001")
+                        .UseUrls("http://*:8008")
                         .UseContentRoot(Directory.GetCurrentDirectory())
                         .UseIISIntegration()
                         .UseStartup<Startup>()

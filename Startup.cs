@@ -75,7 +75,9 @@ namespace DanaZhangCms
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
 
-            GlobalConfiguration.ApplicationPath = hostingEnvironments.WebRootPath;
+            GlobalConfiguration.ContentPath = hostingEnvironments.WebRootPath;
+            GlobalConfiguration.ApplicationPath = hostingEnvironments.ContentRootPath;
+            //Configuration["DefaultAdminUsername"] = "admin1";
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings")); //需要引用 Microsoft.Extensions.Options.ConfigurationExtensions
             //var connectionStringKey = "Data__DefaultConnection__ConnectionString"; ;
@@ -99,6 +101,7 @@ namespace DanaZhangCms
             {
                 o.IdleTimeout = TimeSpan.FromSeconds(10);
             });
+            
 
             #region 注入
             services.AddScoped<IWorkContext, WorkContext>();

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DanaZhangCms.Areas.SysAdmin.Controllers
 {
-    [Area("sysadmin")]
+    [Area("SysAdmin")]
     [Authorize(Roles = "admin")]
     public class ToolsController : Controller
     {

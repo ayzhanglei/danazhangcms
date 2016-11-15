@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.FileProviders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace DanaZhangCms.Services
     {
         private const string MediaRootFoler = "Uploads";
 
-      
+    
+       
 
         public void SaveMedia(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
-            var filePath = Path.Combine(GlobalConfiguration.ApplicationPath, MediaRootFoler, fileName);
+           
+
+            var filePath = Path.Combine(GlobalConfiguration.ContentPath, MediaRootFoler, fileName);
             using (var output = new FileStream(filePath, FileMode.Create))
             {
                 mediaBinaryStream.CopyTo(output);

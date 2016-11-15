@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DanaZhangCms.Areas.SysAdmin.Controllers
 {
-    [Area("sysadmin")]
+    [Area("SysAdmin")]
     [Authorize(Roles = "admin")]
     public class ArticleController : Controller
     {
@@ -26,22 +26,16 @@ namespace DanaZhangCms.Areas.SysAdmin.Controllers
         {
             return View();
         }
-        public async Task<JsonResult> IndexData(int page = 1, string key = "", int pageSize = 10)
+        public async Task<JsonResult> IndexData(int page = 1, string key = "", int rows = 10)
         {
             Expression<Func<Article, bool>> predicate = o => !o.IsDel;
             if (!string.IsNullOrWhiteSpace(key))
                 predicate = predicate.And(s => s.Title.Contains(key));
-            var query = dbContext.Articles.Where(predicate);
+            var query = dbContext.Articles.Where(predicate).Select(o=> new Article(){Id= o.Id,Title=o.Title,SortId=o.SortId,AddTime=o.AddTime,CategoryId=o.CategoryId,CategoryTitle=o.Category.Title});
             var count = query.Count();
-            var data = query.OrderByDescending(o => o.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            var artIDs = data.Select(o => o.CategoryId).ToList();
-            var categorys = this.dbContext.ArticleCategorys.Where(o => artIDs.Contains(o.Id)).ToList();
-            foreach(var item in data)
-            {
-                item.Category = categorys.FirstOrDefault(o=>o.Id==item.CategoryId);
-            }
-            var pages = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
-            return Json(new { records = count, page = page, total = pages, row = data });
+            var data = query.OrderByDescending(o => o.Id).Skip((page - 1) * rows).Take(rows).ToList();
+            var pages = count % rows == 0 ? count / rows : count / rows + 1;
+            return Json(new { records = count, page = page, total = pages, rows = data });
         }
 
         public async Task<IActionResult> Add()
@@ -106,6 +100,16 @@ namespace DanaZhangCms.Areas.SysAdmin.Controllers
             var model = this.dbContext.Articles.SingleOrDefault(o => o.Id == id);
             model.IsDel = true;
             model.UpdateTime = System.DateTime.Now;
+            this.dbContext.Articles.Attach(model);
+            var result = await this.dbContext.SaveChangesAsync() > 0;
+            return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> updateSortId(int id,int sortId)
+        {
+            var model = this.dbContext.Articles.FirstOrDefault(o => o.Id == id);
+            model.SortId=sortId;
             this.dbContext.Articles.Attach(model);
             var result = await this.dbContext.SaveChangesAsync() > 0;
             return Json(result);

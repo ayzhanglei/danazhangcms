@@ -19,12 +19,19 @@
         <div class="col-sm-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>分类列表</h5>
+                    <h5>文章列表</h5>
                 </div>
                 <div class="ibox-content">
 
-                    <h4 class="m-t"><a href="/sysadmin/ArticleCategory/Add">添加分类</a></h4>
+                    <h4 class="m-t"><a href="/sysadmin/Article/Add">添加文章</a></h4>
 
+  <div class="form-group">
+      <div class="input-group">
+                                        <input type="text" class="form-control"> <span class="input-group-btn"> <button type="button" class="btn btn-primary">搜索
+                                        </button> </span>
+                                    </div>
+  </div>
+   <div class="hr-line-dashed"></div>
                     <div class="jqGrid_wrapper">
                         <table id="jqGrid"></table>
                         <div id="pagerlist"></div>
@@ -44,59 +51,32 @@
 
         $(document).ready(function () {
             $.jgrid.defaults.styleUI = "Bootstrap";
-            $("#jqGrid").jqGrid({
-                colNames: ["序号", "标题", "分类", "排序", "添加时间", "操作", ],
-                colModel: [
-                    { name: "id", index: "id", editable: true, width: 60, sorttype: "int", search: true },
-                   
-                    { name: "title", index: "title", editable: true, width: 100 },
-                    { name: "categorytitle", index: "categorytitle", editable: true, width: 90 },
+ jQuery("#jqGrid").jqGrid(
+      {
+        url : '/sysadmin/article/indexdata',
+        datatype : "json",
+        colNames: ["序号", "标题", "分类", "排序", "添加时间", "操作", ],
+        colModel: [
+                    { name: "id", index: "id", editable: false, width: 60, sorttype: "int", search: true },
+                    { name: "title", index: "title", editable: false, width: 100 },
+                    { name: "categoryTitle", index: "categoryTitle", editable: false, width: 90 },
                     { name: "sortId", index: "sortId", editable: true, width: 80, align: "right"},
-                    { name: "addTime", index: "addTime", editable: true, width: 80, align: "right", sorttype: "date", formatter: "date" },
-                    { name: "id", index: "id", editable: true, width: 80, align: "right", formatter: formatOperation }],
-                viewrecords: true, // show the current page, data rang and total records on the toolbar
-                width: 780,
-                height: 700,
-                rowNum: 15,
-                datatype: 'local',
-                pager: "#pagerlist"
-                //,
-                //onSelectRow: function (id) {
-                //    jQuery("#jqGrid").jqGrid('delGridRow', id, { msg: "zzz" });
-                //}
+                    { name: "addTime", index: "addTime", editable: false, width: 80, align: "right", sorttype: "date", formatter: "date" },
+                    { name: "id", index: "id", editable: false, width: 80, align: "right", formatter: formatOperation }],                   
+        cellEdit: true,
+        afterSaveCell : function(rowid,name,val,iRow,iCol) { //保存数据后操作    
+                     //  var sortidval = jQuery("#jqGrid").jqGrid('getCell',rowid,iCol);   
+                      },
+        rowNum : 15,
+        rowList : [ 10, 15, 20 ],
+        pager : '#pagerlist',
+        width: 780,
+        height: 560,
 
-            });
-
-            fetchGridData();
-
-            function fetchGridData() {
-
-                var gridArrayData = [];
-                // show loading message
-                $("#jqGrid")[0].grid.beginReq();
-                $.ajax({
-                    url: "/sysadmin/article/indexdata",
-                    success: function (result) {
-                        for (var i = 0; i < result.row.length; i++) {
-                            var item = result.row[i];
-                            gridArrayData.push({
-                                title: item.title,
-                                categorytitle: item.category.title,
-                                sortId: item.sortId,
-                                addTime: item.addTime,
-                                id: item.id
-                            });
-                        }
-                        // set the new data
-                        $("#jqGrid").jqGrid('setGridParam', { data: gridArrayData });
-                        // hide the show message
-                        $("#jqGrid")[0].grid.endReq();
-                        // refresh the grid
-                        $("#jqGrid").trigger('reloadGrid');
-                    }
-                });
-            }
-
+     cellurl:"/sysadmin/article/updateSortId"//单元格编辑url
+     // editurl : "/sysadmin/article/updateSortId",
+      }).navGrid("#pagerlist", {edit : false,add : false,del : false});
+     var width = $(".jqGrid_wrapper").width(); $("#jqGrid").setGridWidth(width) 
 
             function formatOperation(cellValue, options, rowObject) {
                 return "<a href='/sysadmin/Article/edit/" + cellValue + "'>编辑</a>";

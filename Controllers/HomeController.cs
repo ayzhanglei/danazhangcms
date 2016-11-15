@@ -10,8 +10,10 @@ using DanaZhangCms.Framework;
 using DanaZhangCms;
 using DanaZhangCms.Domain.ViewModel;
 using DanaZhangCms.Domain.DbModels;
+using DanaZhangCms.Services;
+using DanaZhangCms.Controllers.Base;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
 
     public IWorkContext _workContext { get; set; }
@@ -25,7 +27,8 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        ViewBag.Title = "DanaZhangCms";
+     
+       
         var model = new HomeIndexViewModel();
         var banner = this._dbContext.Banners.Where(o => !o.IsDel).OrderBy(o => o.SortId).ThenByDescending(o => o.Id).ToList();
         model.Banners = banner;
@@ -44,8 +47,8 @@ public class HomeController : Controller
                 AddTime = a.AddTime
             }
             );
-        model.Anli = query.Where(o => o.ChannelId == 1).Take(8).ToList();
-        model.News = query.Where(o => o.ChannelId == 3).Take(2).ToList();
+        model.Anli = query.Where(o => o.ChannelId == 1).OrderByDescending(o=>o.Id).Take(8).ToList();
+        model.News = query.Where(o => o.ChannelId == 3).OrderByDescending(o => o.Id).Take(9).ToList();
         return View(model);
     }
 
